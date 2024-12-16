@@ -1,0 +1,95 @@
+﻿
+    case "strong":
+        return WrapWithMark(new MarkStrong(), htmlNode);
+
+    case "em":
+        return WrapWithMark(new MarkEm(), htmlNode);
+
+    case "ul":
+        return new NodeBulletList
+        {
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "ol":
+        return new NodeOrderedList
+        {
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "li":
+        return new NodeListItem
+        {
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "a":
+        return WrapWithMark(new MarkLink(htmlNode.GetAttributeValue("href", "")), htmlNode);
+
+    case "h1":
+    case "h2":
+    case "h3":
+    case "h4":
+    case "h5":
+    case "h6":
+        return new NodeHeading
+        {
+            Attributes = new HeadingAttributes { Level = int.Parse(htmlNode.Name.Substring(1)) },
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "code":
+        return new NodeCodeBlock
+        {
+            Attributes = new CodeBlockAttributes { Language = "plaintext" },
+            Content = new List<AdfNode>
+            {
+                new NodeText
+                {
+                    Attributes = new { text = htmlNode.InnerText }
+                }
+            }
+        };
+
+    case "hr":
+        return new NodeRule();
+
+    case "table":
+        return new NodeTable
+        {
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "tr":
+        return new NodeTableRow
+        {
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "th":
+        return new NodeTableHeader
+        {
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "td":
+        return new NodeTableCell
+        {
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "span":
+    case "div":
+        // Handle generic containers
+        return new NodeText
+        {
+            Content = ConvertChildren(htmlNode)
+        };
+
+    case "text":
+    default:
+        return new NodeText
+        {
+            Attributes = new { text = htmlNode.InnerText }
+        };
+}
