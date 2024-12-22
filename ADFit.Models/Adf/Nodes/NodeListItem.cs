@@ -21,10 +21,6 @@ namespace ADFit.Models.Adf.Nodes
 
         private void ValidateContent(List<AdfTopNode> content)
         {
-            if (content.Count != 1)
-            {
-                throw new ArgumentException("NodeListItem: Content should only contain 1 top level node.");
-            }
             bool flag = content.All(x => x.Type == NodeTypeTop.paragraph
                 || x.Type == NodeTypeTop.bulletList
                 || x.Type == NodeTypeTop.orderedList
