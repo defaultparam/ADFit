@@ -2,6 +2,8 @@
 using Newtonsoft.Json.Serialization;
 
 namespace ADFit.Utilities.Converters;
+
+// NOTE: This converter is not in use!
 public class CamelCaseEnumConverter : JsonConverter
 {
     private readonly NamingStrategy _namingStrategy;
